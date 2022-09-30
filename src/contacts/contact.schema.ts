@@ -11,11 +11,11 @@ export class Contact extends Document {
   @Prop({ required: true })
   last_name: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   email: string;
 
   @Prop()
-  notes: string;
+  note: string;
 }
 
 export const ContactSchema = SchemaFactory.createForClass(Contact);

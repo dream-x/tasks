@@ -19,5 +19,5 @@ export class CreateContactDto {
   email: string;
 
   @IsOptional()
-  notes: string;
+  note: string;
 }
