@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Header,
 } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { CreateContactDto } from './dto/create-contact.dto';
@@ -20,6 +21,7 @@ export class ContactsController {
     return this.contactsService.create(createContactDto);
   }
 
+  @Header('Content-Type', 'text/csv')
   @Get()
   findAll() {
     return this.contactsService.findAll();
