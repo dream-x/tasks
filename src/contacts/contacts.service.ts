@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Parser } from 'json2csv';
@@ -13,7 +13,17 @@ export class ContactsService {
     private readonly contactModel: Model<ContactDocument>,
   ) {}
 
-  create(createContactDto: CreateContactDto) {
+  async create(createContactDto: CreateContactDto) {
+    const contact = await this.contactModel
+      .findOne({ email: createContactDto.email })
+      .exec();
+
+    if (contact) {
+      throw new BadRequestException(
+        `Contact already exists for ${createContactDto.email}`,
+      );
+    }
+
     return new this.contactModel(createContactDto).save();
   }
 
@@ -22,7 +32,7 @@ export class ContactsService {
 
     try {
       const parser = new Parser({
-        fields: ['first_name', 'last_name', 'email', 'note'],
+        fields: ['_id', 'first_name', 'last_name', 'email', 'note'],
       });
       const csv = parser.parse(contacts);
 
@@ -32,17 +42,47 @@ export class ContactsService {
     }
   }
 
-  findOne(id: string) {
-    return this.contactModel.findById(id).exec();
+  async findOne(id: string) {
+    const contact = await this.contactModel.findById(id).exec();
+
+    if (!contact) {
+      throw new BadRequestException(`Contact not found for ${id}`);
+    }
+
+    return contact;
   }
 
-  update(id: string, updateContactDto: UpdateContactDto) {
+  async update(id: string, updateContactDto: UpdateContactDto) {
+    const contact = await this.contactModel.findById(id).exec();
+
+    if (!contact) {
+      throw new BadRequestException(`Contact not found for ${id}`);
+    }
+
+    if (updateContactDto.email) {
+      const otherContact = await this.contactModel.findOne({
+        email: updateContactDto.email,
+      });
+
+      if (contact.id === otherContact.id) {
+        throw new BadRequestException(
+          `Contact already exists for ${updateContactDto.email}`,
+        );
+      }
+    }
+
     return this.contactModel
       .findByIdAndUpdate(id, updateContactDto, { new: true })
       .exec();
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const contact = await this.contactModel.findById(id).exec();
+
+    if (!contact) {
+      throw new BadRequestException(`Contact not found for ${id}`);
+    }
+
     return this.contactModel.findByIdAndDelete(id).exec();
   }
 }
