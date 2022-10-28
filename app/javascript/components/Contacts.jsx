@@ -25,7 +25,7 @@ const Contacts = () => {
         :
         contacts.map((c) => (
             <div key={c.id}>
-                <h1><a href={`/contacts/${c.id}`}>{c.name}</a></h1>
+                <h2><a href={`/contacts/${c.id}`}>{c.name}</a></h2>
             </div>
         ))}
     </div>
