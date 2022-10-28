@@ -13,6 +13,8 @@ const Contacts = () => {
     <div>
         <h1>Hello! Dream-X</h1>
         <p>I'm the UI that allows you to intearact with the CRUD Api!</p>
+        <button><a href='/new/contact'>New Contact</a></button>
+        <br />
         <br />
         <button type="button" onClick={() => {window.open('http://localhost:3000/api/v1/contacts.csv')}} >Download CSV</button>
         {contacts.length==0 ?
