@@ -1,11 +1,11 @@
 class Api::V1::ContactsController < ApplicationController
-    skip_before_action :verify_authenticity_token
+    skip_before_action :verify_authenticity_token, raise: false
 
     def index
         @contacts = Contact.all.order(created_at: :desc)
         respond_to do |format|
             format.json { render json: @contacts }
-            format.csv { send_data @contacts.to_csv, filename: "#{@contacts.first.name}.csv" }
+            format.csv { send_data @contacts.to_csv, filename: "contacts_data.csv" }
         end
     end
 
