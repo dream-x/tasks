@@ -8,6 +8,7 @@ import application.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.factory.Mappers;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,24 +25,25 @@ public class CRUDController {
     private final PersonMapper mapper = Mappers.getMapper(PersonMapper.class);
 
     @PostMapping("persons")
-    public void create(@RequestBody InDataDto dto) {
+    public ResponseEntity<OutDataDto> create(@RequestBody InDataDto dto) {
         Person person = mapper.map(dto);
         repository.save(person);
+        return ResponseEntity.ok(mapper.map(person));
     }
 
     @GetMapping("persons/{id}")
-    public OutDataDto get(@PathVariable UUID id) {
+    public ResponseEntity<OutDataDto> get(@PathVariable UUID id) {
         Optional<Person> data = repository.findById(id);
         if (data.isPresent()) {
             Person person = data.get();
-            return mapper.map(person);
+            return ResponseEntity.ok(mapper.map(person));
         }
-        return null;
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("persons")
-    public List<OutDataDto> getAll() {
-        return repository.findAll().stream().map(mapper::map).collect(Collectors.toList());
+    public ResponseEntity<List<OutDataDto>> getAll() {
+        return ResponseEntity.ok(repository.findAll().stream().map(mapper::map).collect(Collectors.toList()));
     }
 
     @PutMapping("persons")
@@ -50,7 +52,8 @@ public class CRUDController {
     }
 
     @DeleteMapping("persons/{id}")
-    public void delete(@PathVariable UUID id) {
+    public ResponseEntity delete(@PathVariable UUID id) {
         repository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }
