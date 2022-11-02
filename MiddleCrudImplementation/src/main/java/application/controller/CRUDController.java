@@ -6,12 +6,20 @@ import application.dto.out.PersonOutDto;
 import application.mappers.PersonMapper;
 import application.entities.Person;
 import application.repositories.PersonRepository;
+import application.utils.CsvHelper;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.hibernate.id.UUIDGenerator;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,9 +50,19 @@ public class CRUDController {
         return ResponseEntity.ok(mapper.map(person));
     }
 
-    @GetMapping("persons")
-    public ResponseEntity<List<PersonOutDto>> getAll() {
-        return ResponseEntity.ok(repository.findAll().stream().map(mapper::map).collect(Collectors.toList()));
+    @SneakyThrows
+    @GetMapping(value = "persons", produces = "application/csv")
+    public @ResponseBody
+    void getAll(HttpServletResponse response) {
+        List<Person> data = repository.findAll();
+        String fileName = UUID.randomUUID() + "_data.csv";
+        File csv = CsvHelper.toCsv(data, fileName);
+
+        InputStream in = new FileInputStream(csv);
+        response.setContentType("application/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+        response.setHeader("Content-Length", String.valueOf(csv.length()));
+        FileCopyUtils.copy(in, response.getOutputStream());
     }
 
     @PutMapping("persons")
