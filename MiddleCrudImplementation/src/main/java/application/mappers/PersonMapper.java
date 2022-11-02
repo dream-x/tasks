@@ -1,12 +1,14 @@
 package application.mappers;
 
-import application.dto.in.InDataDto;
-import application.dto.out.OutDataDto;
-import application.repositories.Person;
+import application.dto.in.PersonInDto;
+import application.dto.in.UpdatePersonDto;
+import application.dto.out.PersonOutDto;
+import application.entities.Person;
 import org.mapstruct.Mapper;
 
 @Mapper
 public interface PersonMapper {
-    OutDataDto map(Person person);
-    Person map(InDataDto dto);
+    PersonOutDto map(Person person);
+    Person map(PersonInDto dto);
+    Person map(UpdatePersonDto data);
 }
