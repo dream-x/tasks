@@ -79,7 +79,6 @@ public class CRUDController {
             return ResponseEntity.notFound().build();
         }
         Person newValue = mapper.map(dto);
-        newValue.setId(person.get().getId());
         repository.save(newValue);
         return ResponseEntity.ok(mapper.map(newValue));
     }
