@@ -1,6 +1,7 @@
 package application.utils;
 
 import application.entities.Person;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
@@ -9,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 public class CsvHelper {
     private static final String[] HEADERS = {"id", "name", "surname"};
 
@@ -16,13 +18,13 @@ public class CsvHelper {
         try (FileWriter out = new FileWriter(fileName);
              CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT
                      .withHeader(HEADERS))) {
-            data.forEach(row -> {
-                try {
-                    printer.printRecord(row.getId(), row.getName(), row.getSurname());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+            for (Person person : data) {
+                printer.printRecord(person.getId(), person.getName(), person.getSurname());
+            }
+        } catch (IOException e) {
+            log.error("Error while creating target CSV file");
+            e.printStackTrace();
+            throw e;
         }
         return new File(fileName);
     }
