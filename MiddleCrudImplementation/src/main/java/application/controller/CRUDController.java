@@ -31,9 +31,14 @@ public class CRUDController {
 
     @PostMapping("persons")
     public ResponseEntity<PersonOutDto> create(@RequestBody PersonInDto dto) {
-        Person person = mapper.map(dto);
-        repository.save(person);
-        return ResponseEntity.ok(mapper.map(person));
+        Optional<Person> storedPerson = repository.findByNameAndSurname(dto.getName(), dto.getSurname());
+        if (storedPerson.isPresent()) {
+            return ResponseEntity.ok(mapper.map(storedPerson.get()));
+        } else {
+            Person person = mapper.map(dto);
+            repository.save(person);
+            return ResponseEntity.ok(mapper.map(person));
+        }
     }
 
     @GetMapping("persons/{id}")
