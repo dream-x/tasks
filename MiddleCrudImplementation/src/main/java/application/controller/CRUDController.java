@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class CRUDController {
