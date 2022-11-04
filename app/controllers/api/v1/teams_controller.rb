@@ -2,7 +2,9 @@ class API::V1::TeamsController < ApplicationController
 
     def index
         @teams = Team.all
-        render json: @teams
+        render_to do |format|
+            format.csv { send_data @teams.to_csv, filename: "teams-#{Date.today}.csv" }
+        end
     end
 
     def show
@@ -14,6 +16,11 @@ class API::V1::TeamsController < ApplicationController
     def create
         @team = Team.new(team_params)
         @team.save
+    end
+
+    def update
+        @team = Team.find(params[:id])
+        @team.update(team_params)
     end
 
     def destroy
