@@ -1,24 +1,96 @@
-# README
+# PREMIER LEAGUE API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This applications display data of the english premier leagues team. It shows the number of games played, won, lost, drawn, and goal difference.
 
-Things you may want to cover:
+## Built With
 
-* Ruby version
+- Ruby 3.1.2
+- Ruby on rails 7.0.3
+- postgresql (last version)
 
-* System dependencies
+## Getting Started
 
-* Configuration
+To get a local copy up and running follow these simple example steps.
 
-* Database creation
+### Prerequisites
 
-* Database initialization
+- A text editor(preferably Visual Studio Code)
 
-* How to run the test suite
+### Install
 
-* Services (job queues, cache servers, search engines, etc.)
+- Ruby
+- Ruby on Rails
+- PostgresSQL
+- Rspec
 
-* Deployment instructions
 
-* ...
+### Setup
+
+Install gems with:
+
+```
+bundle install
+```
+
+Setup database with:
+
+```
+rails db:create
+rails db:migrate
+```
+
+### Usage
+
+Start server with:
+
+```
+rails server
+```
+
+Visit http://localhost:3000/ in your browser.
+
+### Run tests
+
+
+Install rspec with:
+
+```
+bundle install
+```
+
+and
+
+```
+rails generate rspec:install
+```
+
+run the test with:
+
+```
+rspec spec
+```
+
+## API endpoints
+
+| Endpoint | Functionality |
+| -------- | ------------- |
+| POST /api/v1/teams | Create a team |
+| GET /api/v1/teams | Get all teams |
+| GET /api/v1/teams/:id | Get a team |
+| PUT /api/v1/teams/:id | Update a team |
+| DELETE /api/v1/teams/:id | Delete a team |
+
+
+## Sample csv output
+
+    ```
+    id,name,games_played,games_won,games_drawn,games_lost,goal_difference
+    1,Arsenal,10,5,3,2,10
+    3,Chelsea,10,5,3,2,10
+    5,Tottenham,15,5,5,5,10
+    6,Nottingham,15,5,5,5,10
+    2,Burnley,15,5,5,5,10
+
+    ```
+
+
