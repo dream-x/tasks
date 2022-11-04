@@ -13,17 +13,30 @@ class Api::V1::TeamsController < ApplicationController
 
     def create
         @team = Team.new(team_params)
-        @team.save
+        if @team.save
+            render json: @team, status: :created
+        else
+            render json: @team.errors, status: :unprocessable_entity
+        end
+
     end
 
     def update
         @team = Team.find(params[:id])
-        @team.update(team_params)
+        if @team.update(team_params)
+            render json: @team, status: :ok
+        else
+            render json: @team.errors, status: :unprocessable_entity
+        end
     end
 
     def destroy
         @team = Team.find(params[:id])
-        @team.destroy
+        if @team.destroy
+            render json: {message: "Team deleted"}
+        else
+            render json: @team.errors, status: :unprocessable_entity
+        end
     end
 
     private
