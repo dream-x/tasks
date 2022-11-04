@@ -1,3 +1,4 @@
+require 'csv'
 
 class Team < ApplicationRecord
     def self.to_csv(make)

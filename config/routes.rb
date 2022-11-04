@@ -3,5 +3,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "teams#index"
-  resources :teams, only: [:index, :show, :create, :update, :destroy]
+  namespace :api do
+    namespace :v1 do
+      resources :teams, only: [:index, :show, :create, :update, :destroy]
+    end
+  end
 end

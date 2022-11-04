@@ -1,10 +1,8 @@
-class API::V1::TeamsController < ApplicationController
+class Api::V1::TeamsController < ApplicationController
 
     def index
-        @teams = Team.all
-        render_to do |format|
-            format.csv { send_data @teams.to_csv, filename: "teams-#{Date.today}.csv" }
-        end
+        send_data Team.to_csv(params[:make]), filename: "teams-#{Time.now}.csv"
+
     end
 
     def show
