@@ -52,7 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public ResponseEntity<Object> getAll(HttpServletResponse response) {
 		List<Employee> data = repository.findAll();
-		String fileName = "employees-csv";
+		String fileName = "employees.csv";
 		try {
 			File csv = CSVFileCreator.create(data, fileName);
             InputStream in = new FileInputStream(csv);

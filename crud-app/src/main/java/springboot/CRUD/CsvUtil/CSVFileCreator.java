@@ -6,25 +6,27 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.opencsv.CSVWriter;
+
 import springboot.CRUD.Entity.Employee;
 
 public class CSVFileCreator {
 	
 	private static Logger logger = Logger.getLogger("basicLogger");
+	private static final String[] HEADER = {"id", "name", "surname"};
 	
 	public static File create(List<Employee> data, String fileName) throws IOException {
+		File file = new File(fileName);
 		try {
-            FileWriter csvWriter = new FileWriter(fileName);
-            csvWriter.append("id,firstName,lastName\n");
-
-            for (Employee employee : data) {
-                csvWriter.append(String.valueOf(employee.getId())).append(",");
-                csvWriter.append(employee.getFirstName()).append(",");
-                csvWriter.append(employee.getLastName()).append("\n");
+            FileWriter outputFile = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(outputFile);
+            writer.writeNext(HEADER);
+            
+            for(Employee employee : data) {
+            	String[] line = {employee.getId().toString(), employee.getFirstName(), employee.getLastName()};
+            	writer.writeNext(line);
             }
-
-            csvWriter.flush();
-            csvWriter.close();
+            writer.close();
             logger.info("CSV file successfully created");
             return new File(fileName);
         } catch (IOException e) {
