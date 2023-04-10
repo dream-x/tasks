@@ -1,4 +1,4 @@
-package springboot.CRUD.rest;
+package springboot.CRUD.Controller;
 
 import java.util.UUID;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
@@ -38,8 +38,8 @@ public class EmployeeRestController {
 		return service.get(id);
 	}
 	
-	@GetMapping("/employees")
-	public ResponseEntity<Object> getAll(HttpServletResponse response) {
+	@GetMapping(value = "/employees", produces = "application/csv")
+	public @ResponseBody ResponseEntity<Object> getAll(HttpServletResponse response) {
 		return service.getAll(response);
 	}
 	

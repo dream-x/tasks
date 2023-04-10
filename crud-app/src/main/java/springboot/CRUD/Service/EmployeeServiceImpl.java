@@ -1,5 +1,10 @@
 package springboot.CRUD.Service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -8,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.FileCopyUtils;
 
 import lombok.AllArgsConstructor;
+import springboot.CRUD.CsvUtil.CSVFileCreator;
 import springboot.CRUD.DTO.EmployeeIn;
 import springboot.CRUD.DTO.EmployeeOut;
 import springboot.CRUD.DTO.UpdateEmployee;
@@ -45,9 +50,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	@Override
-	public ResponseEntity<Object> getAll(HttpServletResponse servlet) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<Object> getAll(HttpServletResponse response) {
+		List<Employee> data = repository.findAll();
+		String fileName = "employees-csv";
+		try {
+			File csv = CSVFileCreator.create(data, fileName);
+            InputStream in = new FileInputStream(csv);
+            response.setContentType("application/csv");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.setHeader("Content-Length", String.valueOf(csv.length()));
+            FileCopyUtils.copy(in, response.getOutputStream());
+            csv.deleteOnExit();
+            return ResponseEntity.ok().build();
+		} catch (IOException e) {
+            return ResponseEntity.internalServerError().body("Failed to create CSV file");
+        }
+		
 	}
 	
 	@Override
