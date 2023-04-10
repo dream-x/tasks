@@ -43,7 +43,7 @@ public class EmployeeRestController {
 		return service.getAll(response);
 	}
 	
-	@PutMapping("/employees/{id}")
+	@PutMapping("/employees")
 	public ResponseEntity<EmployeeOut> update(@RequestBody UpdateEmployee dto) {
 		return service.update(dto);
 	}
