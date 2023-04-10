@@ -1,18 +1,24 @@
 package springboot.CRUD.Service;
 
-import java.util.List;
+import java.util.UUID;
 
-import springboot.CRUD.Entity.Employee;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.ResponseEntity;
+
+import springboot.CRUD.DTO.EmployeeIn;
+import springboot.CRUD.DTO.EmployeeOut;
+import springboot.CRUD.DTO.UpdateEmployee;
 
 public interface EmployeeService {
 	
-	List<Employee> findAll();
+	ResponseEntity<Object> getAll(HttpServletResponse servlet);
 	
-	Employee findOne(int id);
+	ResponseEntity<EmployeeOut> get(UUID id);
 	
-	Employee updateEmployee(int id, Employee e);
+	ResponseEntity<EmployeeOut> update(UpdateEmployee e);
 	
-	boolean deleteEmployee(int id);
+	ResponseEntity<EmployeeOut> delete(UUID id);
 
-	void addEmployee(Employee e);
+	ResponseEntity<EmployeeOut> create(EmployeeIn e);
 }
