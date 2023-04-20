@@ -1,10 +1,10 @@
 .env
 
 # crud
-crud/__pycache__/
-crud/*/__pycache__/
-crud/*/*/__pycache__/
-crud/*/*/*/__pycache__/
+crud_app/crud/__pycache__/
+crud_app/crud/*/__pycache__/
+crud_app/crud/*/*/__pycache__/
+crud_app/crud/*/*/*/__pycache__/
 
 # postgres
 postgres_dev/
