@@ -1,0 +1,1 @@
+docker exec crud python manage.py test
