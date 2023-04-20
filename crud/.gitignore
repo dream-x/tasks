@@ -7,5 +7,5 @@ crud/*/*/__pycache__/
 crud/*/*/*/__pycache__/
 
 # postgres
-postgres_test/
+postgres_dev/
 postgres_prod/

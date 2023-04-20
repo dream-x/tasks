@@ -1,5 +1,7 @@
 # CRUD Service
 
+Swagger auto documentation URL (check and try requests): *.../swagger/*
+
 ____
 
 Start development:
