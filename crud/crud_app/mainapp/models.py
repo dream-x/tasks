@@ -1,6 +1,6 @@
 from django.db import models
 
-from utils.abstract_models import ModelTimeMixin
+from utils.abstract_models import ModelTimeMixin, HashMixin
 
 AGES = (
     ('M', 'Mature'),
@@ -8,10 +8,16 @@ AGES = (
 )
 
 
-class Book(ModelTimeMixin):
+class Book(
+    ModelTimeMixin,
+    HashMixin,
+):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
-    age_rating = models.CharField(max_length=1, choices=AGES)
+    age_rating = models.CharField(
+        max_length=1,
+        choices=AGES,
+    )
     is_available = models.BooleanField()
     description = models.TextField()
 

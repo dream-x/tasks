@@ -13,3 +13,14 @@ class ModelTimeMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class HashMixin(models.Model):
+    req_hash = models.CharField(
+        verbose_name='sha512 hash',
+        max_length=128,
+        blank=True,
+    )
+
+    class Meta:
+        abstract = True
