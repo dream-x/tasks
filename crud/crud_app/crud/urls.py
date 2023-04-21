@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.urls import include
 from django.urls import path
 from drf_yasg import openapi
@@ -9,15 +8,14 @@ schema_view = get_schema_view(
     openapi.Info(
         title="CRUD API",
         default_version='V1.1',
-        description="Документация"
+        description="Auto documentation"
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
+    path('api/v1/books/', include('mainapp.urls')),
 
     # Auto documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),
