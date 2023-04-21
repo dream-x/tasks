@@ -1,9 +1,9 @@
-import hashlib
-import json
-
+from django.http import FileResponse
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from utils.helpers import prepare_hash
 from .models import Book
 from .serializers import BookCreateUpdateSerializer, BookGetSerializer
 
@@ -24,12 +24,8 @@ class BooksViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         """Changing default create method to make it idempotent"""
 
-        data = json.dumps(request.data).encode('utf-8')
-        request_hash = hashlib.sha512(data).hexdigest()
-
+        request_hash = prepare_hash(request.data)
         request.data.update({'req_hash': request_hash})
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
 
         obj = Book.objects.filter(req_hash=request_hash).first()
 
@@ -37,6 +33,23 @@ class BooksViewSet(viewsets.ModelViewSet):
             return super().create(request, *args, **kwargs)
 
         return Response(
-                self.get_serializer(obj).data,
-                status=status.HTTP_200_OK,
-            )
+            self.get_serializer(obj).data,
+            status=status.HTTP_200_OK,
+        )
+
+    @action(
+        detail=False,
+        methods=['get'],
+        url_path='actions/xls'
+    )
+    def get_xls(self, request):
+
+        result = Book.create_xls()
+
+        response = FileResponse(
+            result,
+            filename='Books.xls',
+            content_type='application/vnd.ms-excel'
+        )
+
+        return response

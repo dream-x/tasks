@@ -1,3 +1,6 @@
+import io
+
+import pandas as pd
 from django.db import models
 
 from utils.abstract_models import ModelTimeMixin, HashMixin
@@ -27,3 +30,22 @@ class Book(
     class Meta:
         verbose_name = 'Contact'
         verbose_name_plural = 'Contacts'
+
+    @staticmethod
+    def create_xls() -> io.BytesIO:
+        """ Creates xls with all Book models """
+
+        queryset = Book.objects.all()
+        data = list(queryset.values())
+        df = pd.DataFrame(data)
+
+        if queryset:
+            df = df.drop('req_hash', axis=1)
+            df['created'] = df['created'].dt.strftime('%Y-%m-%d %H:%M:%S')
+            df['modified'] = df['modified'].dt.strftime('%Y-%m-%d %H:%M:%S')
+
+        towrite = io.BytesIO()
+        df.to_excel(towrite)
+        towrite.seek(0)
+
+        return towrite
