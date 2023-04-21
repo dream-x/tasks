@@ -3,9 +3,9 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from mainapp.models import Book
+from mainapp.serializers import BookCreateUpdateSerializer, BookGetSerializer
 from utils.helpers import prepare_hash
-from .models import Book
-from .serializers import BookCreateUpdateSerializer, BookGetSerializer
 
 
 class BooksViewSet(viewsets.ModelViewSet):

@@ -17,6 +17,6 @@ CMD sh -c "python manage.py migrate \
 
 FROM base as PROD
 CMD sh -c "python manage.py migrate \
- && gunicorn PricesParser.wsgi -w=4 --bind $BACKEND_HOST:$BACKEND_PORT --timeout 600"
+ && gunicorn PricesParser.wsgi -w=4 --bind $BACKEND_HOST:$BACKEND_PORT --timeout 30"
 
 EXPOSE $BACKEND_PORT

@@ -17,7 +17,7 @@ class ModelTimeMixin(models.Model):
 
 class HashMixin(models.Model):
     req_hash = models.CharField(
-        verbose_name='sha512 hash',
+        'sha512 hash',
         max_length=128,
         blank=True,
     )
