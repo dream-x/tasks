@@ -38,6 +38,9 @@ group :development do
   gem 'spring'
   #for setting environment variables  
   gem 'dotenv-rails'
+  #added linter
+  gem 'rubocop', require: false
+
 
 end
 
