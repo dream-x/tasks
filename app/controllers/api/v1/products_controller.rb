@@ -1,14 +1,22 @@
 class Api::V1::ProductsController < ApplicationController
+  include ActionController::MimeResponds
   before_action :set_product, only: [:show, :update, :destroy]
-
+  require 'csv'
   def index
-    #Todo pagination needs to implemented soon
-    render json: {
-      data: Product.all.order(updated_at: :desc).map{
-        |product| ProductPresenter.new(product).show
-      },
-      message: 'products retreived successfully'
-    }, status: :ok
+    respond_to do |format|
+      format.json do
+        #Todo pagination needs to implemented soon
+        render json: {
+          data: Product.all.order(updated_at: :desc).map{
+            |product| ProductPresenter.new(product).show
+          },
+          message: 'products retreived successfully'
+        }, status: :ok
+      end
+      format.csv do
+        send_data Product.as_csv, filename: 'products.csv', type: 'text/csv'
+      end
+    end
   end
 
   def create
