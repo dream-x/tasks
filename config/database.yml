@@ -1,0 +1,23 @@
+# PostgreSQL. Versions 9.3 and up are supported.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch("DB_USER") { '' } %>
+  password: <%= ENV.fetch("DB_PASS") { '' } %>
+
+development:
+  <<: *default
+  database: middle_crud_api_development
+
+test:
+  <<: *default
+  database: middle_crud_api_test
+
+production:
+  <<: *default
+  database: middle_crud_api_production
+  username: middle_crud_api
+  password: <%= ENV["MIDDLE_CRUD_API_DATABASE_PASSWORD"] %>
