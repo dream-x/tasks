@@ -2,6 +2,7 @@ class Api::V1::ProductsController < ApplicationController
   before_action :set_product, only: [:show, :update, :destroy]
 
   def index
+    #Todo pagination needs to implemented soon
     render json: {
       data: Product.all.order(updated_at: :desc).map{
         |product| ProductPresenter.new(product).show
