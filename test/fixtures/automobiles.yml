@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  company: MyString
+  model: MyString
+  year: 1
+  vehicle_type: MyString
+  color: MyString
+  fuel_type: MyString
+  mileage: 1
+  price: 9.99
+  condition: MyString
+  safety_rating: MyString
+  license_plate_number: MyString
+
+two:
+  company: MyString
+  model: MyString
+  year: 1
+  vehicle_type: MyString
+  color: MyString
+  fuel_type: MyString
+  mileage: 1
+  price: 9.99
+  condition: MyString
+  safety_rating: MyString
+  license_plate_number: MyString
