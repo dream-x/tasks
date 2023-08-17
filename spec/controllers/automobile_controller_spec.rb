@@ -9,8 +9,9 @@ RSpec.describe AutomobilesController, type: :controller do
       FactoryBot.create(:automobile)
 
       get :index
-      expect(response).to have_http_status(:success)
-      expect(JSON.parse(response.body)["vehicle"].size).to eq(3)
+      expect(response.content_type).to eq 'text/csv'
+      expect(response.headers['Content-Disposition']).to include('attachment')
+      expect(response).to have_http_status(:ok)
     end
   end
 

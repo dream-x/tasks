@@ -3,7 +3,10 @@ class AutomobilesController < ApplicationController
 
   def index
     vehicles = Automobile.all
-    render json: { vehicle: vehicles }
+    send_data vehicles_to_csv(vehicles),
+              filename: "All Vehicles-#{Date.today}.csv",
+              type: 'text/csv',
+              disposition: 'attachment'
   end
 
   def show
@@ -46,6 +49,18 @@ class AutomobilesController < ApplicationController
 
   def get_vehicle
     @vehicle = Automobile.find_by(id: params[:id])
+  end
+
+  def vehicles_to_csv(vehicles)
+    require 'csv'
+
+    CSV.generate(headers: true) do |csv|
+      csv << ['Company', 'Model', 'Year', 'Vehicle Type', 'Color', 'Fuel Type', 'Mileage', 'Price', 'Condition', 'Safety Rating', 'License Plate Number' ]
+
+      vehicles.each do |vehicle|
+        csv << [vehicle.company, vehicle.model, vehicle.year, vehicle.vehicle_type, vehicle.color, vehicle.fuel_type, vehicle.mileage, vehicle.price, vehicle.condition, vehicle.safety_rating, vehicle.license_plate_number ]
+      end
+    end
   end
 
 end

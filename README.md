@@ -5,20 +5,19 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version => 3.1.2p20
 
-* System dependencies
+* Configuration => Run "bundle install"
 
-* Configuration
+* Database creation => Run "rails db:create"
 
-* Database creation
+* Database initialization => Run "rails db:migrate" and Run "rails db:seed" for test data
 
-* Database initialization
+* How to run the test suite => Run "bundle exec rspec"
 
-* How to run the test suite
+* How to run local server => Run "rails server"
 
-* Services (job queues, cache servers, search engines, etc.)
+* Postman Collection => import endpoints by using this URL in postman
+  "https://api.postman.com/collections/28346019-b4fb9875-3172-4aeb-99f1-4b7344a31909?access_key=PMAT-01H81Q885MT95PXK7MYD5W14EA"
 
-* Deployment instructions
-
-* ...
+* To retrive CSV use this URL in browser http://localhost:3000/automobiles
