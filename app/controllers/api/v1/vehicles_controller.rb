@@ -21,7 +21,7 @@ module Api
       def create
         vehicle = Vehicle.new(vehicle_params)
 
-        if(vehicle.save)
+        if vehicle.save
           render json: vehicle, status: :created
         else
           render json: vehicle.errors.full_messages, status: :bad_request
