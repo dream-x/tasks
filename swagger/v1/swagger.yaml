@@ -44,7 +44,7 @@ paths:
       - Vehicles
       parameters: []
       responses:
-        '200':
+        '201':
           description: successful
       requestBody:
         content:

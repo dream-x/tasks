@@ -52,7 +52,8 @@ RSpec.describe 'api/v1/vehicles', type: :request do
         required: ['number', 'chasis', 'company']
       }
 
-      response(200, 'successful') do
+      response(201, 'successful') do
+        let(:vehicle) { FactoryBot.attributes_for(:vehicle) }
         # Include example response body in documentation
         after do |example|
           example.metadata[:response][:content] = {
@@ -73,9 +74,9 @@ RSpec.describe 'api/v1/vehicles', type: :request do
     get('show vehicle') do
       tags 'Vehicles'
       produces 'application/json'
-      let(:id) { '123' }
 
       response(200, 'successful') do
+        let(:id) { FactoryBot.create(:vehicle).id }
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -91,7 +92,6 @@ RSpec.describe 'api/v1/vehicles', type: :request do
     # PATCH /api/v1/vehicles/{id}
     patch('update vehicle') do
       tags 'Vehicles'
-      let(:id) { '123' }
       consumes 'application/json'
       parameter name: :vehicle, in: :body, schema: {
         type: :object,
@@ -105,6 +105,8 @@ RSpec.describe 'api/v1/vehicles', type: :request do
       }
 
       response(200, 'successful') do
+        let(:id) { FactoryBot.create(:vehicle).id }
+        let(:vehicle) { FactoryBot.attributes_for(:vehicle) }
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -134,6 +136,8 @@ RSpec.describe 'api/v1/vehicles', type: :request do
       }
 
       response(200, 'successful') do
+        let(:id) { FactoryBot.create(:vehicle).id }
+        let(:vehicle) { FactoryBot.attributes_for(:vehicle) }
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -149,13 +153,12 @@ RSpec.describe 'api/v1/vehicles', type: :request do
     delete('delete vehicle') do
       tags 'Vehicles'
       produces 'application/json'
-      let(:id) { '123' }
-
       response(200, 'successful') do
+        let(:id) { FactoryBot.create(:vehicle).id }
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
+              example: response.body
             }
           }
         end
