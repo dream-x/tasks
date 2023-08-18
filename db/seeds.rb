@@ -1,7 +1,13 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+require 'faker'
+
+# Create vehicles
+10.times do
+  Vehicle.create!(
+    number: Faker::Number.unique.number(digits: 3),
+    chasis: Faker::Alphanumeric.unique.alphanumeric(number: 10).upcase,
+    description: Faker::Vehicle.car_type,
+    company: Faker::Vehicle.manufacture
+  )
+end
+
+
