@@ -1,0 +1,173 @@
+---
+openapi: 3.0.1
+info:
+  title: Middle CRUD
+  version: v1
+paths:
+  "/api/v1/vehicles":
+    get:
+      summary: list vehicles
+      tags:
+      - Vehicles
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    number:
+                      type: integer
+                    chasis:
+                      type: string
+                    description:
+                      type: string
+                    company:
+                      type: string
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+                  required:
+                  - id
+                  - number
+                  - chasis
+                  - company
+    post:
+      summary: create vehicle
+      tags:
+      - Vehicles
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: integer
+                chasis:
+                  type: string
+                description:
+                  type: string
+                company:
+                  type: string
+              required:
+              - number
+              - chasis
+              - company
+  "/api/v1/vehicles/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show vehicle
+      tags:
+      - Vehicles
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  number:
+                    type: integer
+                  chasis:
+                    type: string
+                  description:
+                    type: string
+                  company:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                required:
+                - id
+                - number
+                - chasis
+                - company
+    patch:
+      summary: update vehicle
+      tags:
+      - Vehicles
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: integer
+                chasis:
+                  type: string
+                description:
+                  type: string
+                company:
+                  type: string
+              required:
+              - number
+              - chasis
+              - company
+    put:
+      summary: update vehicle
+      tags:
+      - Vehicles
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number:
+                  type: integer
+                chasis:
+                  type: string
+                description:
+                  type: string
+                company:
+                  type: string
+              required:
+              - number
+              - chasis
+              - company
+    delete:
+      summary: delete vehicle
+      tags:
+      - Vehicles
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: string
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
